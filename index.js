@@ -52,8 +52,8 @@ Sentinel.prototype.createClient = function(masterName, opts) {
             var oldEmit = client.emit;
             client.emit = function(eventName) {
 
-                // Has an error been hit?
-                if (eventName === 'error') {
+                // Has an error been hit or received a reconnecting event?
+                if (eventName === 'error' || eventName === 'reconnecting') {
                     hitError.apply(null, arguments);
                 } else {
                     // Not an error - call the real emit...
